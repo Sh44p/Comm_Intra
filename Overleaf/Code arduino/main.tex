@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\title{Code arduino capteur temp+conduct}
+\author{Antoine Mingasson}
+\date{April 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+Ce document est un récapitulatif concernant le capteur de conductivité. Ce capteur va utiliser la température du milieu donnée par un capteur de température pour mieux déterminer la conductivité du milieu, dans notre cas, l'eau salée.
+
+\section{Pièces}
+Arduino Uno\\
+Gravity - Analog electrical conductivity sensor\\
+DS18B20\\
+
+\section{Resultats}
+L'eau salée à température serait d'après les mesures aux alentours de 4.9 s/m à 15°C environ. Cela corrobore la théorie dans le sens ou la masse de sel versée dans l'eau était de 35g/kg, et que la théorie indique d'une concentration en sel de 35g/kg impliquerais une conductivité d'environ 4.7 S/m
+
+\section{Code}
+Vous trouverez le code utilisé \href{https://pastebin.com/qUmKfP1h}{\underline{içi}}.
+Le code est une copie partielle de codes déjà présent sur les sites constructeurs des deux capteurs, j'ai dû modifier quelques lignes pour faire marcher deux programmes mutuellement
+
+Une calibration automatique est présente dans le programme; étonnamment un point seulement est nécessaire à cette calibration.
+C'est la fonction readTemperature qui va aller chercher la valeur auprès du capteur DS18B20 pour ajuster la valeur de conductivité en fonction de la température. Ce capteur de température utilise le système de communication one-wire.
+
+La fonction Eccalibration va entrer dans le mode "calibration" lors de l'utilisation de commande dans le terminal arduino.\\
+Les commandes sont :\\
+- 'enterec' pour entrer de le mode calibration\\
+- 'calec' pour calibrer. Il existe deux solutions de calibration, dans notre cas, et dûe à la sensibilité du capteur, nous allons utiliser simplement la solution à 12.88mS/cm.\\
+- 'exitec' pour enregistrer la calibration.\\
+Après avoir calibré et mesuré le température, le programme va pouvoir calculer la valeur de conductivité dans la loop principale.
+
+\end{document}
